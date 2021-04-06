@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "sql_metadata"
-version = "1.11.0"
+version = "100.0.0a"
 license="MIT"
 description = "Uses tokenized query returned by python-sqlparse and generates query metadata"
 authors = ["Maciej Brencz <maciej.brencz@gmail.com>"]
 readme = "README.md"
-homepage = "https://github.com/macbre/sql-metadata"
-repository = "https://github.com/macbre/sql-metadata"
+homepage = "https://github.com/MozartData/sql-metadata"
+repository = "https://github.com/MozartData/sql-metadata"
 
 packages = [
     { include="sql_metadata.py" }

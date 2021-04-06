@@ -8,7 +8,7 @@ from typing import List, Tuple, Optional, Dict
 import sqlparse
 
 from sqlparse.sql import TokenList
-from sqlparse.tokens import Name, Whitespace, Wildcard, Number, Punctuation
+from sqlparse.tokens import Name, Whitespace, Wildcard, Newline, Number, Punctuation
 
 
 def unique(_list: List) -> List:
@@ -36,9 +36,6 @@ def preprocess_query(query: str) -> str:
     :type query str
     :rtype str
     """
-    # 0. remove newlines
-    query = query.replace("\n", " ")
-
     # 1. remove aliases
     # FROM `dimension_wikis` `dw`
     # INNER JOIN `fact_wam_scores` `fwN`
@@ -68,9 +65,11 @@ def get_query_tokens(query: str) -> List[sqlparse.sql.Token]:
         return []
 
     tokens = TokenList(parsed[0].tokens).flatten()
-    # print([(token.value, token.ttype) for token in tokens])
+    # Convert this to a list so you don't lose it if you inspect the elements once.
+    token_list = list(tokens)
+    # print([(token.value, token.ttype) for token in token_list])
 
-    return [token for token in tokens if token.ttype is not Whitespace]
+    return [token for token in token_list if token.ttype is not Whitespace and token.ttype is not Newline]
 
 
 def get_query_columns(query: str) -> List[str]:
@@ -81,8 +80,6 @@ def get_query_columns(query: str) -> List[str]:
     columns = []
     last_keyword = None
     last_token = None
-
-    # print(preprocess_query(query))
 
     # these keywords should not change the state of a parser
     # and not "reset" previously found SELECT keyword

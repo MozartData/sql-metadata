@@ -52,7 +52,7 @@ def test_preprocess_query():
     # normalize newlines
     assert (
         preprocess_query("SELECT foo,\nid\nFROM `db`.`test`")
-        == "SELECT foo, id FROM db.test"
+        == "SELECT foo,\nid\nFROM db.test"
     )
 
 
